@@ -1,0 +1,50 @@
+billingSoftware
+
+ Schema  Part
+itemCode String
+itemName String
+Category  String -enum- => 
+                      1. Fruits,
+                      2.Vegetables,
+                      3. Stationaries
+Quantity  Number
+Rate  Number
+Location an enum  String 
+
+
+Ui Part
+
+table  ui 
+
+priority 1
+
+  1.Si no
+  2.itemCode
+  3.Name
+  4.Category
+  5.Quantity
+  6.Rate
+
+ priority 2 
+
+  7.Price = Quantity * Rate
+  8.Discount = Fruits 5%, V- 10%, S-3%
+  9.Amount = calculated value hard code  (price)-(price*(discount))
+
+
+
+
+api
+
+data post
+data get
+
+
+
+
+
+
+
+
+
+
