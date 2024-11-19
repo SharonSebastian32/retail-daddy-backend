@@ -27,7 +27,7 @@ import {
 //routes declaration
 app.use("/api/v1/healthcheck", healthcheckRouter);
 app.use("/api/v1/invoices/create", invoiceRouter);
+app.use("/api/v1/invoices", invoiceRouter);
 app.use("/api/v1/invoices/getall", getAllInvoices);
-app.use("/api/v1/invoices/delete", deleteInvoice);
-
+ 
 export { app };

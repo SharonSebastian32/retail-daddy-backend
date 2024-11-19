@@ -75,46 +75,27 @@ export const getAllInvoices = async (req, res) => {
   }
 };
 
-// delete by id
-// export const deleteInvoice = async (req, res) => {
-//   try {
-//     const documentId = "673998f4484867c102a123eb"; // Your document's _id
-
-//     const deletedInvoice = await Invoice.findByIdAndDelete(documentId);
-
-//     if (!deletedInvoice) {
-//       return res.status(404).json({
-//         message: "Invoice not found.",
-//       });
-//     }
-
-//     return res.status(200).json({
-//       message: "Invoice deleted successfully",
-//       data: deletedInvoice,
-//     });
-//   } catch (error) {
-//     console.error(error);
-//     return res.status(500).json({
-//       message: "An error occurred while deleting the invoice",
-//       error: error.message,
-//     });
-//   }
-// };
-
-// controllers/invoiceController.js
+//http://localhost:3000/api/v1/invoices/​67399c7e484867c102a12405
 
 export const deleteInvoice = async (req, res) => {
   try {
-    const id = req.params.id;
-    await Invoice.findOneAndDelete({ _id: id });
+    const { id } = req.params; // Get _id from URL parameters
+
+    // Find and delete the invoice by its _id
+    const deletedInvoice = await Invoice.findByIdAndDelete(id);
+
+    if (!deletedInvoice) {
+      return res.status(404).json({ message: "Invoice not found." });
+    }
 
     res.status(200).json({
       message: "Invoice deleted successfully",
+      data: deletedInvoice,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "An error occurred while deleting invoice",
+      message: "An error occurred while deleting the invoice",
       error: error.message,
     });
   }
