@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
-const app = express();
+let app = express();
 app.use(
   cors({
     origin: "*", // Allows all origins
@@ -19,11 +19,15 @@ app.use(cookieParser());
 //routes import
 import healthcheckRouter from "./routes/healthcheck.routes.js";
 import invoiceRouter from "./routes/invoice.routes.js";
-import { getAllInvoices } from "./controllers/invoice.controller.js";
+import {
+  getAllInvoices,
+  deleteInvoice,
+} from "./controllers/invoice.controller.js";
 
 //routes declaration
 app.use("/api/v1/healthcheck", healthcheckRouter);
 app.use("/api/v1/invoices/create", invoiceRouter);
 app.use("/api/v1/invoices/getall", getAllInvoices);
+app.use("/api/v1/invoices/delete", deleteInvoice);
 
 export { app };

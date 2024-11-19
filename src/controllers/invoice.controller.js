@@ -1,5 +1,5 @@
 import Invoice from "../models/invoice.model.js";
-
+import mongoose from "mongoose";
 export const createInvoice = async (req, res) => {
   try {
     const { itemCode, itemName, category, quantity, rate, location } = req.body;
@@ -39,6 +39,7 @@ export const createInvoice = async (req, res) => {
       message: "Invoice created successfully",
       data: savedInvoice,
     });
+    console.log(savedInvoice);
   } catch (error) {
     console.error(error);
     res.status(500).json({
@@ -49,6 +50,7 @@ export const createInvoice = async (req, res) => {
 };
 
 //getall products
+// controllers/invoiceController.js
 
 export const getAllInvoices = async (req, res) => {
   try {
@@ -68,6 +70,51 @@ export const getAllInvoices = async (req, res) => {
     console.error(error);
     res.status(500).json({
       message: "An error occurred while retrieving invoices",
+      error: error.message,
+    });
+  }
+};
+
+// delete by id
+// export const deleteInvoice = async (req, res) => {
+//   try {
+//     const documentId = "673998f4484867c102a123eb"; // Your document's _id
+
+//     const deletedInvoice = await Invoice.findByIdAndDelete(documentId);
+
+//     if (!deletedInvoice) {
+//       return res.status(404).json({
+//         message: "Invoice not found.",
+//       });
+//     }
+
+//     return res.status(200).json({
+//       message: "Invoice deleted successfully",
+//       data: deletedInvoice,
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     return res.status(500).json({
+//       message: "An error occurred while deleting the invoice",
+//       error: error.message,
+//     });
+//   }
+// };
+
+// controllers/invoiceController.js
+
+export const deleteInvoice = async (req, res) => {
+  try {
+    const id = req.params.id;
+    await Invoice.findOneAndDelete({ _id: id });
+
+    res.status(200).json({
+      message: "Invoice deleted successfully",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "An error occurred while deleting invoice",
       error: error.message,
     });
   }
