@@ -5,7 +5,7 @@ import morgan from "morgan";
 const app = express();
 app.use(
   cors({
-    origin: "*", // Allows all origins
+    origin: "https://retail-dady-frontend-app.vercel.app/", // Allows all origins
     credentials: true, // Optional, enables credentials sharing (cookies, Authorization headers, etc.)
   })
 );

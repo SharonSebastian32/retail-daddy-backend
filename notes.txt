@@ -1,6 +1,6 @@
 billingSoftware
 
- Schema  Part
+Schema  Part
 itemCode String
 itemName String
 Category  String -enum- => 
@@ -15,7 +15,6 @@ Location an enum  String
 Ui Part
 
 table  ui 
-
 priority 1
 
   1.Si no
@@ -33,9 +32,7 @@ priority 1
 
 
 
-
 api
-
 data post
 data get
 
