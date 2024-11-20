@@ -103,7 +103,7 @@ export const updateInvoice = async (req, res, next) => {
     const { id } = req.params; // The _id of the invoice to update
 
     if (!id) {
-      return res.status(400).json({ message: "Invoice ID is required." });
+      return res.status(400).json({ message: "Stock ID is required." });
     }
 
     if (
@@ -116,12 +116,21 @@ export const updateInvoice = async (req, res, next) => {
     ) {
       return res.status(400).json({ message: "All fields are required." });
     }
+    const existingInvoice = await Invoice.findOne({
+      itemCode,
+      _id: { $ne: id },
+    });
 
-    // Find the invoice by _id and update it
+    if (existingInvoice) {
+      return res
+        .status(400)
+        .json({ message: "Item code already exists in another Stock." });
+    }
+
     const updatedInvoice = await Invoice.findByIdAndUpdate(
       id,
       { itemCode, itemName, category, quantity, rate, location },
-      { new: true } // This will return the updated document
+      { new: true }
     );
 
     if (!updatedInvoice) {
