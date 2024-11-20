@@ -1,5 +1,6 @@
 import Invoice from "../models/invoice.model.js";
-
+//http://localhost:3000/api/v1/invoices/create
+//add stock to table
 export const createInvoice = async (req, res, next) => {
   try {
     const { itemCode, itemName, category, quantity, rate, location } = req.body;
@@ -47,9 +48,8 @@ export const createInvoice = async (req, res, next) => {
     });
   }
 };
-
 //http://localhost:3000/api/v1/invoices/getall
-//getall stock aka invoice
+//getall stock
 export const getAllInvoices = async (req, res, next) => {
   try {
     const invoices = await Invoice.find(); // Fetch all invoices from the database
@@ -94,13 +94,12 @@ export const deleteInvoice = async (req, res, next) => {
     });
   }
 };
-
 //http://localhost:3000/api/v1/invoices/update/673d4731dd4e841c06a2becd
 //update stock by id
 export const updateInvoice = async (req, res, next) => {
   try {
     const { itemCode, itemName, category, quantity, rate, location } = req.body;
-    const { id } = req.params; // The _id of the invoice to update
+    const { id } = req.params;
 
     if (!id) {
       return res.status(400).json({ message: "Stock ID is required." });
