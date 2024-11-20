@@ -22,12 +22,16 @@ import invoiceRouter from "./routes/invoice.routes.js";
 import {
   getAllInvoices,
   deleteInvoice,
+  createInvoice,
+  updateInvoice,
 } from "./controllers/invoice.controller.js";
 
 //routes declaration
-app.use("/api/v1/healthcheck", healthcheckRouter);
-app.use("/api/v1/invoices/create", invoiceRouter);
 app.use("/api/v1/invoices", invoiceRouter);
+app.use("/api/v1/healthcheck", healthcheckRouter);
+app.use("/api/v1/invoices/create", createInvoice);
 app.use("/api/v1/invoices/getall", getAllInvoices);
- 
+app.use("/api/v1/invoices/delete/:id", deleteInvoice);
+app.use("/api/v1/invoices/update/:id", updateInvoice);
+
 export { app };

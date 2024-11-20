@@ -138,12 +138,21 @@ Copy code
 console.log("Received ID:", id);
 Let me know how it goes! If you’re still facing issues, feel free to share more details about the request and I’ll help you debug further.
 
+Get All Data☑️ (tested and verfied by me)
+http://localhost:3000/api/v1/invoices/getall​
+
+Post Data☑️ (tested and verfied by me)
+http://localhost:3000/api/v1/invoices/create
+
+Delete by _id☑️ (tested and verfied by me)
+http://localhost:3000/api/v1/invoices/delete/​673ca9761585b62bdf77c8dd
+
+update by _id✏️
 
 
 
 
-
-
-
-
-
+total Amount on sale 
+total quantity
+total stock
+total interest on sale

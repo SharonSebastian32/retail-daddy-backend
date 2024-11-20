@@ -1,6 +1,6 @@
 import Invoice from "../models/invoice.model.js";
-import mongoose from "mongoose";
-export const createInvoice = async (req, res) => {
+
+export const createInvoice = async (req, res, next) => {
   try {
     const { itemCode, itemName, category, quantity, rate, location } = req.body;
 
@@ -19,7 +19,7 @@ export const createInvoice = async (req, res) => {
     const existingInvoice = await Invoice.findOne({ itemCode });
     if (existingInvoice) {
       return res.status(400).json({
-        message: "An invoice with this ItemCode already exists.",
+        message: "An item with this ItemCode already exists.",
       });
     }
 
@@ -36,23 +36,21 @@ export const createInvoice = async (req, res) => {
     const savedInvoice = await invoice.save();
 
     res.status(201).json({
-      message: "Invoice created successfully",
+      message: "Stock Added successfully",
       data: savedInvoice,
     });
-    console.log(savedInvoice);
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "An error occurred while creating the invoice",
+      message: "An error occurred while adding the stock",
       error: error.message,
     });
   }
 };
 
-//getall products
-// controllers/invoiceController.js
-
-export const getAllInvoices = async (req, res) => {
+//http://localhost:3000/api/v1/invoices/getall
+//getall stock aka invoice
+export const getAllInvoices = async (req, res, next) => {
   try {
     const invoices = await Invoice.find(); // Fetch all invoices from the database
 
@@ -63,39 +61,81 @@ export const getAllInvoices = async (req, res) => {
     }
 
     res.status(200).json({
-      message: "Invoices retrieved successfully",
+      message: "Stock retrieved successfully",
       data: invoices,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "An error occurred while retrieving invoices",
+      message: "An error occurred while retrieving stock",
       error: error.message,
     });
   }
 };
 
 //http://localhost:3000/api/v1/invoices/​67399c7e484867c102a12405
-
-export const deleteInvoice = async (req, res) => {
+//delete stock by id
+export const deleteInvoice = async (req, res, next) => {
   try {
-    const { id } = req.params; // Get _id from URL parameters
-
-    // Find and delete the invoice by its _id
+    const { id } = req.params;
     const deletedInvoice = await Invoice.findByIdAndDelete(id);
-
     if (!deletedInvoice) {
-      return res.status(404).json({ message: "Invoice not found." });
+      return res.status(404).json({ message: "Item not found on stock." });
     }
-
     res.status(200).json({
-      message: "Invoice deleted successfully",
+      message: "Iteme deleted from Stock",
       data: deletedInvoice,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
-      message: "An error occurred while deleting the invoice",
+      message: "An error occurred while deleting the item",
+      error: error.message,
+    });
+  }
+};
+
+//http://localhost:3000/api/v1/invoices/update/673d4731dd4e841c06a2becd
+//update stock by id
+export const updateInvoice = async (req, res, next) => {
+  try {
+    const { itemCode, itemName, category, quantity, rate, location } = req.body;
+    const { id } = req.params; // The _id of the invoice to update
+
+    if (!id) {
+      return res.status(400).json({ message: "Invoice ID is required." });
+    }
+
+    if (
+      !itemCode ||
+      !itemName ||
+      !category ||
+      !quantity ||
+      !rate ||
+      !location
+    ) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    // Find the invoice by _id and update it
+    const updatedInvoice = await Invoice.findByIdAndUpdate(
+      id,
+      { itemCode, itemName, category, quantity, rate, location },
+      { new: true } // This will return the updated document
+    );
+
+    if (!updatedInvoice) {
+      return res.status(404).json({ message: "Invoice not found." });
+    }
+
+    res.status(200).json({
+      message: "Invoice updated successfully",
+      data: updatedInvoice,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "An error occurred while updating the invoice",
       error: error.message,
     });
   }
